@@ -6,7 +6,6 @@ public class PayrollCalculator {
             return 0;
         }
         switch (employeeType) {
-
     case "FULL_TIME":
         if(hoursWorked>40){
             return (40*hourlyRate) + (hourlyRate*1.5*(hoursWorked-40));
@@ -14,7 +13,7 @@ public class PayrollCalculator {
         else {
            return hoursWorked*hourlyRate;
         }
-        break;
+
     case "PART_TIME":
         if(hoursWorked>25){
             return hourlyRate*25;
@@ -22,10 +21,10 @@ public class PayrollCalculator {
         else {
             return hourlyRate*hoursWorked;
         }
-        break;
+
     case "CONTRACTOR":
         return hourlyRate*hoursWorked;
-        break;
+
     case "INTERN":
         if(hoursWorked>20){
             return 0.8*hourlyRate*20;
@@ -33,17 +32,16 @@ public class PayrollCalculator {
         else {
             return 0.8*hourlyRate*hoursWorked;
         }
-        break;
+
     default:
         System.out.println("invalid employee type");
         return 0;
-        break;
 
 }
     }
     // Method to calculate tax deduction based on pay brackets
     public static double calculateTaxDeduction(double grossPay, boolean hasHealthInsurance){
-        double tax;
+        double tax=0;
         if(grossPay<0)
             System.out.println("invalid input, negative value");
         else if(grossPay<=500)
@@ -55,7 +53,7 @@ public class PayrollCalculator {
         else
             tax=0.25*grossPay;
         if(hasHealthInsurance){
-             tax-=50;
+             tax=tax-50;
             if (tax < 0)
                 tax = 0;
         }
@@ -64,13 +62,13 @@ public class PayrollCalculator {
     }
     // Method to process multiple employees and find statistics
     public static void processPayroll(String[] employeeTypes, double[] hours, double[] rates, String[] names){
-       double[] netPays= new double[4]; //declare array for payroll
+       double[] netPays= new double[5]; //declare array for payroll
         double totalPay=0; //initialize before summing, used to calculate avg
         double highestPay = Double.MIN_VALUE; //compare and update this value whenever we find a higher net pay.
         double lowestPay = Double.MAX_VALUE;  //if we find any employee with a lower pay we update this.
         String highestPaidEmployee = "", lowestPaidEmployee = "";
         int overtimeCount = 0;
-        for (int i=0; i<4; i++){
+        for (int i=0; i<5; i++){
             double gross= calculateWeeklyPay(employeeTypes[i],hours[i], rates[i]);
             double tax=calculateTaxDeduction(gross,true);
             double pay= gross-tax;
